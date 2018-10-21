@@ -1,7 +1,6 @@
 require "./config/environment"
 require "./app/models/user"
 class ApplicationController < Sinatra::Base
-
   configure do
     set :views, "app/views"
     enable :sessions
@@ -18,7 +17,12 @@ class ApplicationController < Sinatra::Base
 
   post "/signup" do
     #your code here
-
+    if params[:username] == "" || params[:password] == ""
+      redirect "/failure"
+    else
+      User.create(:username => params[:username], :password => params[:password])
+      redirect "/login"
+    end
   end
 
   get '/account' do
